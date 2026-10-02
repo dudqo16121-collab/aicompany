@@ -36,33 +36,34 @@ export function AdminView() {
   const [newDeptColorInput, setNewDeptColorInput] = useState("#42b2cb")
 
   // 커스텀 [예 / 아니오] 모달 State
-  const [modalConfig, setModalConfig] = useState<{
-    isOpen: boolean
-    title: string
-    message: string
-    type?: "info" | "warning" | "danger"
-    onConfirm?: () => void
-  }>({
-    isOpen: false,
-    title: "",
-    message: "",
-    type: "info",
-  })
+const [modalConfig, setModalConfig] = useState<{
+  isOpen: boolean
+  title: string
+  message: string
+  type?: "info" | "warning" | "danger"
+  onConfirm?: () => void
+}>({
+  isOpen: false,
+  title: "",
+  message: "",
+  type: "info",
+})
 
-  const showConfirm = (
-    title: string,
-    message: string,
-    onConfirm: () => void,
-    type: "info" | "warning" | "danger" = "info"
-  ) => {
-    setModalConfig({
-      isOpen: true,
-      title,
-      message,
-      type,
-      onConfirm,
-    })
-  }
+// 커스텀 확인 창 호출 함수
+const showConfirm = (
+  title: string,
+  message: string,
+  onConfirm: () => void,
+  type: "info" | "warning" | "danger" = "info"
+) => {
+  setModalConfig({
+    isOpen: true,
+    title,
+    message,
+    type,
+    onConfirm,
+  })
+}
 
   // 🎯 DepartmentId 및 Department 타입 단언으로 빨간 줄 완벽 해결
   const handleAddDepartment = () => {

@@ -238,6 +238,35 @@ export function TaskSidebar({
 }) {
   const [filter, setFilter] = useState<Filter>("all")
 
+  // 👇 여기 최상단에 모달 State 및 showConfirm 함수를 추가하세요[cite: 2]
+  const [modalConfig, setModalConfig] = useState<{
+    isOpen: boolean
+    title: string
+    message: string
+    type?: "info" | "warning" | "danger"
+    onConfirm?: () => void
+  }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info",
+  })
+
+  const showConfirm = (
+    title: string,
+    message: string,
+    onConfirm: () => void,
+    type: "info" | "warning" | "danger" = "info"
+  ) => {
+    setModalConfig({
+      isOpen: true,
+      title,
+      message,
+      type,
+      onConfirm,
+    })
+  }
+  
   // 작업 추가 모달 State
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
   const [newTaskTitle, setNewTaskTitle] = useState("")
@@ -715,7 +744,23 @@ export function TaskSidebar({
               </div>
             </div>
 
-            <div className="flex justify-end pt-2 border-t-2" style={{ borderColor: "var(--po-line)" }}>
+<div className="flex justify-between items-center pt-2 border-t-2" style={{ borderColor: "var(--po-line)" }}>
+              {/* 빨간색 작업 삭제 버튼 */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm(`'${viewingTask.title}' 작업을 정말 삭제하시겠습니까?`)) {
+                    // 상위로 삭제 요청 보내거나 로컬에서 지우기
+                    setViewingTask(null)
+                  }
+                }}
+                className="font-pixel-sm px-3 py-1.5 text-[10px] pixel-soft-sm transition-transform active:translate-y-[1px]"
+                style={{ background: "#fee2e2", color: "#dc2626", border: "1px solid #fca5a5" }}
+              >
+                삭제
+              </button>
+
+              {/* 기존 확인 버튼 */}
               <button
                 type="button"
                 onClick={() => setViewingTask(null)}
